@@ -1,93 +1,127 @@
+"use client"; // Mark this component as a Client Component
+
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import NavbarList from "@/components/navbar";
 import Button from '@mui/material/Button';
+import { useState } from 'react';
+import { CSSProperties } from 'react';
 
 export default function Contact() {
-  const styleContact = {
-    display: 'flex' as const,
-    justifyContent: 'center' as const,
-    flexDirection: 'column' as const,
-    alignItems: 'center' as const, 
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [messageError, setMessageError] = useState(false);
+
+  const validateEmail = (value:string) => {
+    setEmailError(!value.includes('@'));
+    setEmail(value);
+  };
+
+  const validateMessage = (value:string) => {
+    setMessageError(value.trim() === '');
+    setMessage(value);
+  };
+
+  const handleSubmit = async () => {
+    validateEmail(email);
+    validateMessage(message);
+
+    if (!emailError && !messageError) {
+      try {
+        const response = await fetch('http://localhost/project/send_mail.php', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, message }),
+        });
+        console.log(response)
+        const result = await response.json();
+        if (result.status === "success") {
+          alert("Email sent successfully");
+        } else {
+          alert("Failed to send email: " + result.message);
+        } 
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while sending email.");
+      }
+    }
+  };
+
+  const styleContact: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
     gap: '30px',
     marginTop: '200px',
-  }
+  };
+
   return (
-    <div className='contact_main' 
-        style={{
-          backgroundColor: 'rgb(11, 11, 11)',
-          width: "100vw",
-          height: "100vh",
-          }}>
-      <div style={{ marginTop: '0px'}}>
+    <div className='contact_main' style={{
+      backgroundColor: 'rgb(11, 11, 11)',
+      width: "100vw",
+      height: "100vh",
+    }}>
+      <div style={{ marginTop: '0px' }}>
         <NavbarList />
       </div>
-      <div className='inputs_contact' style={styleContact} >
+      <div className='inputs_contact' style={styleContact}>
         <TextField
-          id="outlined-multiline-static"
+          id="email-field"
           label="Email"
+          placeholder="Enter your email"
           fullWidth
-          rows={4}
-          defaultValue="Under construction"
+          value={email}
+          onBlur={() => validateEmail(email)}
+          onChange={(e) => setEmail(e.target.value)}
+          error={emailError}
+          helperText={emailError ? "Please enter a valid email." : ""}
           sx={{
-            width: '500px', // Set width
+            width: '500px',
             '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'white', // Default border color
-              },
-              '&:hover fieldset': {
-                borderColor: 'gray', // Border color on hover
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: 'gray', // Border color when focused
-              },
+              '& fieldset': { borderColor: 'white' },
+              '&:hover fieldset': { borderColor: 'gray' },
+              '&.Mui-focused fieldset': { borderColor: 'gray' },
             },
-            '& .MuiInputLabel-root': {
-              color: 'white', // Label color
-            },
-            '& .MuiInputBase-input': {
-              color: 'white', // Text color
-              fontSize: '16px', // Text size
-            },
+            '& .MuiInputLabel-root': { color: 'white' },
+            '& .MuiInputBase-input': { color: 'white', fontSize: '16px' },
           }}
         />
         <TextField
-          id="outlined-multiline-static"
+          id="message-field"
           label="Message"
+          placeholder="Enter your message"
           multiline
           fullWidth
           rows={4}
-          defaultValue="Under construction"
+          value={message}
+          onBlur={() => validateMessage(message)}
+          onChange={(e) => setMessage(e.target.value)}
+          error={messageError}
+          helperText={messageError ? "Message cannot be empty." : ""}
           sx={{
-            width: '500px', // Set width
+            width: '500px',
             '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'white', // Default border color
-              },
-              '&:hover fieldset': {
-                borderColor: 'gray', // Border color on hover
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: 'gray', // Border color when focused
-              },
+              '& fieldset': { borderColor: 'white' },
+              '&:hover fieldset': { borderColor: 'gray' },
+              '&.Mui-focused fieldset': { borderColor: 'gray' },
             },
-            '& .MuiInputLabel-root': {
-              color: 'white', // Label color
-            },
-            '& .MuiInputBase-input': {
-              color: 'white', // Text color
-              fontSize: '16px', // Text size
-            },
+            '& .MuiInputLabel-root': { color: 'white' },
+            '& .MuiInputBase-input': { color: 'white', fontSize: '16px' },
           }}
         />
-        <Button 
+        <Button
           variant="contained"
+          onClick={handleSubmit}
           sx={{ fontSize: '20px', padding: '10px 100px' }}
-          >Send
+        >
+          Send
         </Button>
       </div>
     </div>
-    
   );
 }
