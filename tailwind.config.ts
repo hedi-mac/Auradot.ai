@@ -8,6 +8,9 @@ const {
 module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
   darkMode: "class",
+  colors: {
+    'custom-black': 'rgb(11, 11, 11)',
+  },
   theme: {
     // rest of the code
   },
