@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchMessage = async () => {
-      const res = await fetch('http://localhost/project/test.php');
+      const res = await fetch('http://localhost/php/test.php');
       
       console.log(res)
       const data = await res.text();

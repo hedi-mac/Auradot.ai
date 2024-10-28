@@ -3,6 +3,16 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+// Handle preflight (OPTIONS) request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit();
+}
 
 // Handle POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -23,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {  
         // Server configuration
         $mail->isSMTP();
-        $mail->Host = 'smtp.example.com'; // Specify the SMTP server
+        $mail->Host = 'smtp.gmail.com'; // Specify the SMTP server
         $mail->SMTPAuth = true;
         $mail->Username = 'hedimaac@gmail.com'; // Your email address
         $mail->Password = 'eaegdkvfpqobdcmp'; // Your email password
@@ -41,11 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->AltBody = strip_tags($message); // Plain text alternative
 
         $mail->send();
-        echo json_encode(["success" => "Email has been sent"]);
+        echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
     } catch (Exception $e) {
-        echo json_encode(["error" => "Email could not be sent. Mailer Error: {$mail->ErrorInfo}"]);
+        echo json_encode(["status" => "error", "message" => "Failed to send email", "to" => $to, "subject" => $subject, "message_data" => $message]);
     }
 } else {
-    echo json_encode(["error" => "Invalid request method. Please send a POST request."]);
+    echo json_encode(["status" => "error", "message" => "Invalid request method. Please send a POST request."]);
 }
 ?>

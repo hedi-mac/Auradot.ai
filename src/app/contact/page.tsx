@@ -29,7 +29,7 @@ export default function Contact() {
 
     if (!emailError && !messageError) {
       try {
-        const response = await fetch('http://localhost/project/send_mail.php', {
+        const response = await fetch('http://localhost/php/send_mail.php', {
           method: 'POST',
           mode: 'cors',
           headers: {
