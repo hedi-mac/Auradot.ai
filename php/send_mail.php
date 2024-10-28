@@ -33,22 +33,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {  
         // Server configuration
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // Specify the SMTP server
+        $mail->Host = 'smtp.gmail.com'; 
         $mail->SMTPAuth = true;
-        $mail->Username = 'hedimaac@gmail.com'; // Your email address
-        $mail->Password = 'eaegdkvfpqobdcmp'; // Your email password
+        $mail->Username = 'hedimaac@gmail.com'; // Email address
+        $mail->Password = 'eaegdkvfpqobdcmp'; // Application password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587; // Connection port
+        $mail->Port = 587; 
 
         // Recipients
         $mail->setFrom('hedimaac@gmail.com', 'Mailer');
-        $mail->addAddress($email); // Use the email from the JSON data
+        $mail->addAddress($email); 
 
         // Email content
         $mail->isHTML(true);
-        $mail->Subject = 'Test Email';
-        $mail->Body    = $message; // Use the message from the JSON data
-        $mail->AltBody = strip_tags($message); // Plain text alternative
+        $mail->Subject = 'Contact Mail';
+        $mail->Body    = $message; 
+        $mail->AltBody = strip_tags($message); 
 
         $mail->send();
         echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
