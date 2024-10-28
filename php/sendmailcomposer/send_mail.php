@@ -3,6 +3,16 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+// Handle preflight (OPTIONS) request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit();
+}
 
 // Handle POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -23,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {  
         // Server configuration
         $mail->isSMTP();
-        $mail->Host = 'smtp.example.com'; // Specify the SMTP server
+        $mail->Host = 'smtp.gmail.com'; // Specify the SMTP server
         $mail->SMTPAuth = true;
         $mail->Username = 'hedimaac@gmail.com'; // Your email address
         $mail->Password = 'eaegdkvfpqobdcmp'; // Your email password
