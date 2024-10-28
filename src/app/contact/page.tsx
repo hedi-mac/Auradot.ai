@@ -5,6 +5,7 @@ import NavbarList from "@/components/navbar";
 import Button from '@mui/material/Button';
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
+import Alert from "@/components/Alert"; // Import the Alert component
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -40,15 +41,14 @@ export default function Contact() {
       });
     } else {
       setAlertState({
-        message: "Failed to send email: " + result.message,
+        message: result.message === undefined ? "Failed to send email: verify email address" : "Failed to send email: " + result.message,
         type: "error",
         visible: true,
       });
     }
- 
   };
 
-  const validateEmail = (value: string) => {
+  const validateEmail = (value:string) => {
     const isValid = value.includes('@');
     setFormState((prev) => ({
       ...prev,
@@ -58,7 +58,7 @@ export default function Contact() {
     return isValid;
   };
 
-  const validateMessage = (value: string) => {
+  const validateMessage = (value:string) => {
     const isValid = value.trim() !== '';
     setFormState((prev) => ({
       ...prev,
@@ -76,64 +76,43 @@ export default function Contact() {
       return;
     }
 
-    // Start loading
-    setFormState((prev) => ({
-      ...prev,
-      isLoading: true,
-    }));
+    setFormState((prev) => ({ ...prev, isLoading: true }));
 
-    // Set a timeout to simulate loading
     setTimeout(async () => {
       try {
         await sendMail(formState);
-        setFormState((prev) => ({
-          ...prev,
-          isLoading: false,
-          email: "",
-          message: ""
-        }));
+        setFormState((prev) => ({ ...prev, isLoading: false, email: "", message: "" }));
       } catch (error) {
         console.error("Error:", error);
-
         setAlertState({
           message: "An error occurred while sending email.",
           type: "error",
           visible: true,
         });
-        setFormState((prev) => ({
-          ...prev,
-          isLoading: false,
-        }));
+        setFormState((prev) => ({ ...prev, isLoading: false }));
       } finally {
         setTimeout(() => {
           setAlertState((prev) => ({ ...prev, visible: false }));
         }, 3000);
       }
-    }, 2000); // 2000 milliseconds = 2 seconds
+    }, 2000); // Simulate loading time
   };
 
-  // Function to close the alert manually
   const closeAlert = () => {
     setAlertState({ ...alertState, visible: false });
   };
 
   return (
-    <div className='contact_main' style={{ backgroundColor: 'rgb(11, 11, 11)' }}>
+    <div className='contact-main bg-black overflow-hidden' >
       <NavbarList />
-      {/* Alert Notification */}
-      {alertState.visible && (
-        <div
-          className={`fixed bottom-4 right-4 z-50 p-4 rounded-md text-white ${
-            alertState.type === "success" ? "bg-green-500" : "bg-red-500"
-          }`}
-        >
-          <div className="flex justify-between">
-            <span>{alertState.message}</span>
-            <button onClick={closeAlert} className="ml-4 text-xl">✖</button>
-          </div>
-        </div>
-      )}
-      <div className='inputs_contact flex flex-col items-center justify-center gap-7 mt-52'>
+      {/* Use Alert component here */}
+      <Alert 
+        message={alertState.message}
+        type={alertState.type}
+        visible={alertState.visible}
+        onClose={closeAlert}
+      />
+      <div className='inputs-contact flex flex-col items-center justify-center gap-7 mt-52'>
         <TextField
           id="email-field"
           label="Email"
@@ -182,7 +161,7 @@ export default function Contact() {
           variant="contained"
           onClick={handleSubmit}
           sx={{ fontSize: '20px', padding: '10px 100px' }}
-          disabled={formState.emailError || formState.messageError }
+          disabled={formState.emailError || formState.messageError}
         >
           {formState.isLoading ? (
             <>

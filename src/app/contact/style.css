@@ -1,7 +1,7 @@
-.contact_main {
+.contact-main {
     background-color: rgb(16, 16, 16);
 }
-.inputs_contact {
+.inputs-contact {
     display: flex;
     justify-content: center;
     flex-direction: column;
