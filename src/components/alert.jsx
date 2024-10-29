@@ -5,12 +5,12 @@ const Alert = ({ message, type, visible, onClose }) => {
 
   return (
     <div 
-      className={`fixed bottom-4 right-4 z-50 p-4 pt-1 pb-1 rounded-md text-white border border-05 ${
-        type === "success" ? "border-green-500 text-green-500" : "border-red-500 text-red-500"
+      className={`fixed bottom-4 right-4 z-50 p-4 pt-1 pb-1 rounded-md border border-05 bg-customdark ${
+        type === "success" ? "border-success text-success" : "border-danger text-danger"
       }`}
     >
       <div className="flex justify-between">
-        <span>{message}</span>
+        <span >{message}</span>
         <button onClick={onClose} className="ml-4 text-xl">✖</button>
       </div>
     </div>

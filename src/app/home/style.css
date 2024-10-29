@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center; 
     gap: 30px;
-    position: absolute;
+    position: fixed;
     height: 150px;
     width: 500px;
     top: 40%;

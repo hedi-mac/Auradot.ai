@@ -3,24 +3,30 @@ import React from "react";
 import Button from '@mui/material/Button';
 import { Boxes } from "@/components/ui/background-boxes";
 import "./style.css";
-import NavbarList from "@/components/navbar";
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import TransitionLink from '@/lib/TransitionLink'
-
+import { motion } from "framer-motion";
 export default function HomePage() {
 
   const router = useRouter();
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
-      <Boxes />
-      <div style={{ marginTop: '0px'}}>
-        <NavbarList />
-      </div>
+    <motion.div 
+      initial={{ opacity:0 }}
+      animate={{ 
+          opacity:1, 
+          transition: { delay: 2, duration: 0.4, ease: "easeIn" }
+      }} 
+              className="py-6 overflow-hidden"
+              >
+ 
+
+      <Boxes className="hidden xl:flex "/>
+       
       <div className="home_body">
         <h1 className='app_title' style={{fontFamily: 'courier new'}}>
-            auradot.ai
+            auradot<span className="text-accent">.</span>ai
         </h1>
-        <TransitionLink href="/contact">
+        <Link href="/contact">
           <Button 
             onClick={() => {
               router.push('/contact');
@@ -29,9 +35,10 @@ export default function HomePage() {
             variant="outlined"
             > Contact Us
           </Button>
-        </TransitionLink>
+        </Link>
         
       </div>
-    </div>
+ 
+    </motion.div>
   );
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
+import PageTransition from "@/components/PageTransition";
+import StairTransition from "@/components/StairTransition";
+import Header from '@/components/header';
 
 export const metadata: Metadata = {
   title: "Auradot.ia",
@@ -16,9 +18,16 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="logo-sm.png" type="image/png"/> 
+ 
+ 
       </head>
-      <body>
-        {children}
+      <body className="xl:overflow-hidden">  
+      <Header/>
+      <StairTransition/>
+      <PageTransition>
+        {children}  
+      </PageTransition>
+          
       </body>
     </html>
   );

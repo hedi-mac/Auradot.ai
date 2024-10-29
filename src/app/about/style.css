@@ -1,0 +1,12 @@
+.contact-main {
+    background-color: rgb(16, 16, 16);
+}
+.inputs-contact {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center; 
+    gap: 30px;
+    margin-top: 200px;
+}
+ 
