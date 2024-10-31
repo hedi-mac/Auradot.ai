@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { FiDownload } from "react-icons/fi";
-import Social from "@/components/Social"
+import Social from "@/components/social"
 import Photo from "@/components/photo"
 import Link from "next/link";
 import { motion } from "framer-motion";

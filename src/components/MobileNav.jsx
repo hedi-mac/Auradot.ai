@@ -3,9 +3,8 @@ import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
 import { usePathname } from 'next/navigation';
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
- 
-import { useState } from "react";
-import { useRouter } from 'next/router';
+ import { useState } from "react";
+
 
 const links = [
     {

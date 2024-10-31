@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import PageTransition from "@/components/PageTransition";
-import StairTransition from "@/components/StairTransition";
+import PageTransition from "@/components/pagetransition";
+import StairTransition from "@/components/stairtransition";
 import Header from '@/components/header';
 
 export const metadata: Metadata = {
